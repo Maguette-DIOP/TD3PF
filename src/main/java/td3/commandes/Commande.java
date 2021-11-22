@@ -70,7 +70,15 @@ public class Commande {
     }
 
     public Commande normaliser2(){
-        
+        Commande commandeNormalisee = new Commande();
+        Map<Produit, Integer> lignesCumulees = new HashMap<>();
+        lignes.stream()
+               .map(regrouper(lignesCumulees)
+               .forEach((l->lignes.stream().reduce(0,(commandeNormalisee,Paire<Produit,Integer> l)
+                       ->commandeNormalisee+)));
+
+
+        return commandeNormalisee;
     }
 
     public Double cout(Function<Paire<Produit, Integer>, Double> calculLigne) {
