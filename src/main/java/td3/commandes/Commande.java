@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import td1.paires.Paire;
 
 public class Commande {
+
     private List<Paire<Produit, Integer>> lignes;
 
     public Commande() {
@@ -68,6 +69,10 @@ public class Commande {
         return commandeNormalisee;
     }
 
+    public Commande normaliser2(){
+        
+    }
+
     public Double cout(Function<Paire<Produit, Integer>, Double> calculLigne) {
         double rtr = 0;
         for (Paire<Produit, Integer> l : normaliser().lignes) {
@@ -78,9 +83,18 @@ public class Commande {
 
     public Double cout2(Function<Paire<Produit,Integer>,Double> calculLigne){
         return lignes.stream()
-                .map(l->l::normaliser())
-                .reduce(0,(rtr)->rtr + calculLigne.apply(l));
+                .map((Paire<Produit,Integer> ligne)->normaliser().lignes)
+                .reduce(0,(rtr, Paire<Produit,Integer> ligne) ->rtr + calculLigne.apply(ligne));
     }
+
+    public static <A,B> Map<A,List<B>>regrouper(List<Paire<A,B>> ls){
+
+        Map<A,List<Paire<A,B>>> l = ls.stream()
+                .collect(Collectors.groupingBy(Paire::fst,Collectors.toList()));
+        return l;
+    }
+
+
 
     public String affiche(Function<Paire<Produit, Integer>, Double> calculLigne) {
         Commande c = this.normaliser();
