@@ -97,23 +97,25 @@ public class DAO {
             .collect(Collectors.toList());
     }
 
-    public List<Commande> selectionCommandeSurExistanceLigneVersionSansStream(Predicate<Paire<Produit,Integer>> p){
-          List<Commande> res = new ArrayList<Commande>();
-          for(Commande c:commandes){
-              for(Paire<Produit,Integer> ligne: c.lignes()){
-                  if(p.test(ligne))
-                      res.add(c);
-          }
-          return res;
-      }
-    /**
-     *
-     *
-     */
+    public List<Commande> selectionCommandeSurExistanceLigneVersionSansStream(Predicate<Paire<Produit,Integer>> p) {
+        List<Commande> res = new ArrayList<Commande>();
+        for (Commande c : commandes) {
+            for (Paire<Produit, Integer> ligne : c.lignes()) {
+                if (p.test(ligne))
+                    res.add(c);
+            }
+        }
+        return res;
+    }
 
-    /**
-     * ensemble des différents produits commandés vérifiant un prédicat
-     */
+        /**
+         *
+         *
+         */
+
+        /**
+         * ensemble des différents produits commandés vérifiant un prédicat
+         */
     public Set<Produit> selectionProduits(Predicate<Produit> p) {
         return produits()
             .stream()
@@ -121,14 +123,15 @@ public class DAO {
             .collect(Collectors.toSet());
     }
 
-    public Set<Produit> selectionProduitsVersionSansStream(Predicate<Produit> p){
-         Set<Produit> listP = new HashSet<>();
-        for(Commande c : commandes){
-            for(Paire<Produit,Integer> ligne: c.lignes()){
-                if(p.test(ligne.fst()))
-                    listP.add(ligne.fst());
-            }
+    public Set<Produit> selectionProduitsVersionSansStream(Predicate<Produit> p) {
+            Set<Produit> listP = new HashSet<>();
+            for (Commande c : commandes) {
+                for (Paire<Produit, Integer> ligne : c.lignes()) {
+                    if (p.test(ligne.fst()))
+                        listP.add(ligne.fst());
+                }
 
-      }
-        return listP;
-}
+            }
+            return listP;
+    }
+    }

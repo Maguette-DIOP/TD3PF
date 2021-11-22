@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.stream.Collectors;
 
 import td1.paires.Paire;
 
@@ -32,6 +33,18 @@ public class Commande {
             str.append(String.format("%s x%d\n", ligne.fst(), ligne.snd()));
         }
         return str.toString();
+    }
+
+    public String formatteurLigne(Paire<Produit,Integer> l){
+        StringBuilder str = new StringBuilder();
+        str.append(String.format("%s x%d\n", l.fst(), l.snd()));
+        return  str.toString();
+    }
+
+    public String toString2(){
+        return lignes.stream()
+                .map((Paire<Produit,Integer> ligne)->formatteurLigne(ligne))
+                .collect(Collectors.toList()).toString();
     }
 
     /**
@@ -63,6 +76,12 @@ public class Commande {
         return rtr;
     }
 
+    public Double cout2(Function<Paire<Produit,Integer>,Double> calculLigne){
+        return lignes.stream()
+                .map(l->l::normaliser())
+                .reduce(0,(rtr)->rtr + calculLigne.apply(l));
+    }
+
     public String affiche(Function<Paire<Produit, Integer>, Double> calculLigne) {
         Commande c = this.normaliser();
         final String HLINE = "+------------+------------+-----+------------+--------+------------+\n";
@@ -83,5 +102,7 @@ public class Commande {
         str.append(String.format("Total : %10.2f", c.cout(calculLigne)));
         return str.toString();
     }
+
+
 
 }
